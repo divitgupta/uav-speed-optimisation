@@ -1,0 +1,19 @@
+category,method,V_E,V_star,V_T,evaluations,runtime_ms
+Delivery / Logistics,Grid search,21.1,21.1,21.1,403,0.09
+Delivery / Logistics,Weighted sum (SciPy),21.1,21.1,21.1,45,0.77
+Delivery / Logistics,NSGA-II (pymoo),21.1,21.1,21.1,2400,235.78
+Disaster Relief & SAR,Grid search,19.05,20.1,20.1,383,0.06
+Disaster Relief & SAR,Weighted sum (SciPy),19.05,20.1,20.1,40,0.89
+Disaster Relief & SAR,NSGA-II (pymoo),19.05,20.1,20.1,2400,148.12
+Agricultural,Grid search,11.9,11.9,11.9,219,0.05
+Agricultural,Weighted sum (SciPy),11.9,11.9,11.9,41,0.72
+Agricultural,NSGA-II (pymoo),11.9,11.9,11.9,2400,226.01
+Surveillance & Security,Grid search,17.5,17.5,17.5,331,0.05
+Surveillance & Security,Weighted sum (SciPy),17.5,17.5,17.5,45,0.72
+Surveillance & Security,NSGA-II (pymoo),17.5,17.5,17.5,2400,206.82
+Mapping & Surveying,Grid search,17.55,20.5,20.5,391,0.06
+Mapping & Surveying,Weighted sum (SciPy),17.55,20.5,20.5,40,0.94
+Mapping & Surveying,NSGA-II (pymoo),17.55,20.5,20.5,2400,148.71
+Industrial Inspection,Grid search,21.7,25.0,25.0,481,0.06
+Industrial Inspection,Weighted sum (SciPy),21.71,25.0,25.0,40,0.95
+Industrial Inspection,NSGA-II (pymoo),21.71,25.0,25.0,2400,149.44

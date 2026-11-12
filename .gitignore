@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+*.tmp
+~$*
+
+# personal working files, not part of the project submission
+UAV_EL_Phase1_v2.pptx
+Literature review papers.docx

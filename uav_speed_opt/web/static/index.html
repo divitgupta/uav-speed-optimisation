@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UAV Flight-Speed Optimiser</title>
+  <meta name="description" content="Find the UAV flight speed that minimises energy and delivery time while keeping mission reliability above a target.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='15' fill='%230F1626'/><path d='M6 19 L16 9 L26 19' stroke='%233DD6F5' stroke-width='3' fill='none' stroke-linecap='round'/></svg>">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="9" cy="9" r="6"/><circle cx="31" cy="9" r="6"/><circle cx="9" cy="31" r="6"/><circle cx="31" cy="31" r="6"/><path d="M13 13 L27 27 M27 13 L13 27"/><rect x="15" y="15" width="10" height="10" rx="2"/></svg>
+      <span>UAV Speed <b>Optimiser</b></span>
+    </a>
+    <nav>
+      <a href="#planner">Planner</a><a href="#tradeoff">Trade-off</a><a href="#benchmark">Benchmark</a><a href="#method">Method</a>
+    </nav>
+    <span class="pill sdg">SDG 9 · Industry, Innovation &amp; Infrastructure</span>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">Experiential Learning Project · RV College of Engineering</p>
+        <h1>Minimizing energy &amp; delivery time <span>while ensuring high reliability in UAVs</span></h1>
+        <p class="lede">Every drone mission trades battery energy against delivery time and the risk of failure. Flight speed is the one knob that
+          controls all three. This tool models a multirotor's power, time and reliability, then finds the <b>optimal feasible speed</b>
+          for your mission using three optimisation algorithms.</p>
+        <div class="hero-cta"><a class="btn primary" href="#planner">Plan a mission</a><a class="btn ghost" href="#method">How it works</a></div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b>50</b><span>commercial drones benchmarked</span></div>
+        <div class="stat"><b>6</b><span>application categories</span></div>
+        <div class="stat"><b>3</b><span>optimisers: grid, SciPy, NSGA-II</span></div>
+        <div class="stat"><b>0.05 kJ</b><span>max model error vs reference</span></div>
+      </div>
+    </section>
+
+    <!-- PLANNER -->
+    <section id="planner" class="section">
+      <div class="section-head"><h2>Mission planner</h2><p>Pick a drone category (defaults come from the industry benchmark), then adjust the mission.</p></div>
+      <div class="planner">
+        <aside class="panel controls">
+          <div class="group">
+            <label class="glabel">Drone category</label>
+            <div id="cats" class="chips"></div>
+          </div>
+          <div class="group">
+            <label class="glabel">Drone</label>
+            <div class="slider" data-key="mass" data-min="0.3" data-max="120" data-step="0.1" data-unit="kg" data-label="Take-off mass"></div>
+            <div class="slider" data-key="payload" data-min="0" data-max="20" data-step="0.1" data-unit="kg" data-label="Extra payload"></div>
+            <div class="slider" data-key="vmax" data-min="5" data-max="40" data-step="0.1" data-unit="m/s" data-label="Max speed"></div>
+            <div class="slider" data-key="endurance" data-min="5" data-max="120" data-step="1" data-unit="min" data-label="Published flight time"></div>
+          </div>
+          <div class="group">
+            <label class="glabel">Mission</label>
+            <div class="slider" data-key="distance" data-min="0.5" data-max="30" data-step="0.5" data-unit="km" data-label="Distance"></div>
+            <div class="slider" data-key="headwind" data-min="0" data-max="12" data-step="0.5" data-unit="m/s" data-label="Headwind"></div>
+            <div class="slider" data-key="rmin" data-min="0.98" data-max="0.9995" data-step="0.0005" data-unit="" data-label="Required reliability" data-dp="4"></div>
+            <div class="slider" data-key="w" data-min="0" data-max="1" data-step="0.05" data-unit="" data-label="Priority: time ← → energy" data-dp="2"></div>
+          </div>
+          <details class="group">
+            <summary class="glabel">Reliability model (assumption)</summary>
+            <div class="slider" data-key="lam0" data-min="0.001" data-max="0.1" data-step="0.0005" data-unit="/h" data-label="Base failure rate λ0" data-dp="4"></div>
+            <div class="slider" data-key="k" data-min="0" data-max="10" data-step="0.5" data-unit="" data-label="Speed-stress factor k" data-dp="1"></div>
+          </details>
+          <div class="group">
+            <label class="glabel">Optimiser</label>
+            <div id="algos" class="seg">
+              <button data-algo="grid" class="on">Grid</button><button data-algo="scipy">SciPy</button><button data-algo="nsga2">NSGA-II</button>
+            </div>
+          </div>
+          <button id="reset" class="btn ghost small">Reset to category defaults</button>
+        </aside>
+
+        <div class="results">
+          <div class="panel result-hero" id="resultHero">
+            <div class="vstar">
+              <span class="label">Recommended speed</span>
+              <div class="big"><span id="vStar">–</span><small>m/s</small></div>
+              <span class="sub" id="vStarKmh">–</span>
+            </div>
+            <div class="speedbar-wrap">
+              <div class="speedbar" id="speedbar">
+                <div class="band" id="sbBand"></div>
+                <div class="pareto" id="sbPareto"></div>
+                <div class="marker" id="sbStar"><span>V*</span></div>
+              </div>
+              <div class="sb-scale"><span>0</span><span id="sbMax">Vmax</span></div>
+              <div class="sb-legend"><span><i class="lg band"></i>feasible speeds</span><span><i class="lg pareto"></i>energy ↔ time trade-off zone</span><span><i class="lg star"></i>chosen speed V*</span></div>
+            </div>
+            <div class="algo-tag" id="algoTag">–</div>
+          </div>
+          <div class="infeasible panel" id="infeasible" hidden>
+            <b>No feasible speed.</b> This mission breaks the battery or reliability limit. Shorten the distance, reduce payload or headwind, or relax the required reliability.
+          </div>
+          <div class="metrics">
+            <div class="panel metric"><span class="label">Energy used</span><b id="mE">–</b><div class="meter"><i id="mEbar"></i></div><span class="sub" id="mEsub">–</span></div>
+            <div class="panel metric"><span class="label">Delivery time</span><b id="mT">–</b><span class="sub" id="mTsub">–</span></div>
+            <div class="panel metric"><span class="label">Mission reliability</span><b id="mR">–</b><span class="sub" id="mRsub">–</span></div>
+            <div class="panel metric accent"><span class="label">Energy saved vs 10 m/s</span><b id="mS">–</b><span class="sub" id="mSsub">–</span></div>
+          </div>
+          <div class="panel charts">
+            <div id="chE" class="chart"></div><div id="chT" class="chart"></div><div id="chR" class="chart"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRADE-OFF -->
+    <section id="tradeoff" class="section">
+      <div class="section-head"><h2>Energy–time trade-off</h2><p>Every point on the Pareto front is a speed where you cannot save energy without losing time.</p></div>
+      <div class="two">
+        <div class="panel"><div id="chP" class="chart tall"></div></div>
+        <div class="panel">
+          <div class="row-between"><h3>Algorithm comparison</h3><button id="compare" class="btn primary small">Run all three</button></div>
+          <table class="tbl" id="cmp"><thead><tr><th>Method</th><th>V* (m/s)</th><th>Min-energy V (m/s)</th><th>Evaluations</th><th>Runtime</th></tr></thead>
+            <tbody><tr><td colspan="5" class="muted">Press “Run all three” to compare the optimisers on the current mission.</td></tr></tbody></table>
+          <p class="note">Grid search checks every speed (exact baseline). SciPy uses a bounded Brent search on a penalised weighted sum.
+            NSGA-II evolves a population to return the whole Pareto front. That is more than one variable needs, but it scales to route-level problems.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENCHMARK -->
+    <section id="benchmark" class="section">
+      <div class="section-head"><h2>Industry benchmark: <span id="bmTitle"></span></h2>
+        <p>Published specifications from official sources. Blank = not disclosed. The planner's defaults are medians of the free-flight multirotors below.</p></div>
+      <div class="panel">
+        <div class="bm-summary" id="bmSummary"></div>
+        <div class="tbl-wrap"><table class="tbl" id="bm"><thead></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- METHOD -->
+    <section id="method" class="section">
+      <div class="section-head"><h2>How it works</h2><p>A quantitative, simulation-based model optimised under constraints.</p></div>
+      <div class="cards4">
+        <div class="panel eq"><h3>Power</h3><p class="mono">P(V) = P₀(1+3V²/U²) + Pᵢ·√(√(1+V⁴/4v₀⁴) − V²/2v₀²) + ½d₀ρsA·V³</p><p>Rotary-wing model of Zeng, Xu &amp; Zhang (2019), scaled to the drone's mass.</p></div>
+        <div class="panel eq"><h3>Time &amp; energy</h3><p class="mono">T(V) = D / (V − w) &nbsp;&nbsp; E(V) = P(V)·T(V)</p><p>Headwind w slows ground speed. Battery budget = 0.8 × hover power × published flight time.</p></div>
+        <div class="panel eq warn"><h3>Reliability <em>(assumption)</em></h3><p class="mono">R(V) = exp(−λ(V)·T) &nbsp; λ(V) = λ₀(1 + k(V/Vmax)²)</p><p>No drone maker publishes failure rates, so λ₀ and k are illustrative (after Petritoli et al., 2018).</p></div>
+        <div class="panel eq"><h3>Optimisation</h3><p class="mono">min {E, T} &nbsp;s.t.&nbsp; R ≥ R_min, E ≤ budget, V ≤ Vmax</p><p>Weighted sum J = w·E/E_min + (1−w)·T/T_min picks one speed from the Pareto front.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><b>UAV Flight-Speed Optimiser</b> · EL Phase-II prototype · SDG 9. Power model: Zeng et al., IEEE TWC 2019 · NSGA-II: Deb et al., 2002 (pymoo) · Reliability basis: Petritoli et al., Sensors 2018.</p>
+  </footer>
+
+  <script src="/static/vendor/plotly.min.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

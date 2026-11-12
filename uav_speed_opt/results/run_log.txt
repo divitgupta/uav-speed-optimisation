@@ -1,0 +1,28 @@
+verification max abs error (kJ): 0.05
+{'category': 'Delivery / Logistics', 'companies': 10, 'multirotors': 4, 'mass_kg': 53.25, 'v_max': 21.1, 'endurance_min': 18, 'robustness': 7.5, 'battery_kJ': 3802.3, 'V_E': 21.1, 'V_star': 21.1, 'V_T': 21.1, 'E_star_kJ': 826.0, 'T_star_min': 3.95, 'R_star': 0.9972, 'E_at_10ms_kJ': 1565.9, 'energy_saved_vs_10ms': 0.473, 'time_saved_vs_10ms': 0.526}
+{'category': 'Disaster Relief & SAR', 'companies': 9, 'multirotors': 7, 'mass_kg': 3.1, 'v_max': 20.1, 'endurance_min': 42, 'robustness': 32.4, 'battery_kJ': 516.5, 'V_E': 19.05, 'V_star': 20.1, 'V_T': 20.1, 'E_star_kJ': 64.2, 'T_star_min': 4.15, 'R_star': 0.9976, 'E_at_10ms_kJ': 94.9, 'energy_saved_vs_10ms': 0.324, 'time_saved_vs_10ms': 0.502}
+{'category': 'Agricultural', 'companies': 9, 'multirotors': 8, 'mass_kg': 67, 'v_max': 11.9, 'endurance_min': 17.5, 'robustness': 15, 'battery_kJ': 4651.2, 'V_E': 11.9, 'V_star': 11.9, 'V_T': 11.9, 'E_star_kJ': 1614.2, 'T_star_min': 7.0, 'R_star': 0.9953, 'E_at_10ms_kJ': 1966.5, 'energy_saved_vs_10ms': 0.179, 'time_saved_vs_10ms': 0.16}
+{'category': 'Surveillance & Security', 'companies': 8, 'multirotors': 6, 'mass_kg': 1.56, 'v_max': 17.5, 'endurance_min': 45.0, 'robustness': 47.7, 'battery_kJ': 278.5, 'V_E': 17.5, 'V_star': 17.5, 'V_T': 17.5, 'E_star_kJ': 34.9, 'T_star_min': 4.76, 'R_star': 0.9976, 'E_at_10ms_kJ': 48.5, 'energy_saved_vs_10ms': 0.282, 'time_saved_vs_10ms': 0.429}
+{'category': 'Mapping & Surveying', 'companies': 7, 'multirotors': 4, 'mass_kg': 1.33, 'v_max': 20.5, 'endurance_min': 43.5, 'robustness': 35, 'battery_kJ': 229.5, 'V_E': 17.55, 'V_star': 20.5, 'V_T': 20.5, 'E_star_kJ': 31.2, 'T_star_min': 4.07, 'R_star': 0.9977, 'E_at_10ms_kJ': 41.6, 'energy_saved_vs_10ms': 0.25, 'time_saved_vs_10ms': 0.512}
+{'category': 'Industrial Inspection', 'companies': 7, 'multirotors': 3, 'mass_kg': 11.95, 'v_max': 25.0, 'endurance_min': 47, 'robustness': 31.3, 'battery_kJ': 2228.0, 'V_E': 21.7, 'V_star': 25.0, 'V_T': 25.0, 'E_star_kJ': 216.4, 'T_star_min': 3.33, 'R_star': 0.998, 'E_at_10ms_kJ': 357.3, 'energy_saved_vs_10ms': 0.394, 'time_saved_vs_10ms': 0.6}
+{'category': 'Delivery / Logistics', 'method': 'Grid search', 'V_E': 21.1, 'V_star': 21.1, 'V_T': 21.1, 'evaluations': 403, 'runtime_ms': 0.09}
+{'category': 'Delivery / Logistics', 'method': 'Weighted sum (SciPy)', 'V_E': 21.1, 'V_star': 21.1, 'V_T': 21.1, 'evaluations': 45, 'runtime_ms': 0.77}
+{'category': 'Delivery / Logistics', 'method': 'NSGA-II (pymoo)', 'V_E': 21.1, 'V_star': 21.1, 'V_T': 21.1, 'evaluations': 2400, 'runtime_ms': 235.78}
+{'category': 'Disaster Relief & SAR', 'method': 'Grid search', 'V_E': 19.05, 'V_star': 20.1, 'V_T': 20.1, 'evaluations': 383, 'runtime_ms': 0.06}
+{'category': 'Disaster Relief & SAR', 'method': 'Weighted sum (SciPy)', 'V_E': 19.05, 'V_star': 20.1, 'V_T': 20.1, 'evaluations': 40, 'runtime_ms': 0.89}
+{'category': 'Disaster Relief & SAR', 'method': 'NSGA-II (pymoo)', 'V_E': 19.05, 'V_star': 20.1, 'V_T': 20.1, 'evaluations': 2400, 'runtime_ms': 148.12}
+{'category': 'Agricultural', 'method': 'Grid search', 'V_E': 11.9, 'V_star': 11.9, 'V_T': 11.9, 'evaluations': 219, 'runtime_ms': 0.05}
+{'category': 'Agricultural', 'method': 'Weighted sum (SciPy)', 'V_E': 11.9, 'V_star': 11.9, 'V_T': 11.9, 'evaluations': 41, 'runtime_ms': 0.72}
+{'category': 'Agricultural', 'method': 'NSGA-II (pymoo)', 'V_E': 11.9, 'V_star': 11.9, 'V_T': 11.9, 'evaluations': 2400, 'runtime_ms': 226.01}
+{'category': 'Surveillance & Security', 'method': 'Grid search', 'V_E': 17.5, 'V_star': 17.5, 'V_T': 17.5, 'evaluations': 331, 'runtime_ms': 0.05}
+{'category': 'Surveillance & Security', 'method': 'Weighted sum (SciPy)', 'V_E': 17.5, 'V_star': 17.5, 'V_T': 17.5, 'evaluations': 45, 'runtime_ms': 0.72}
+{'category': 'Surveillance & Security', 'method': 'NSGA-II (pymoo)', 'V_E': 17.5, 'V_star': 17.5, 'V_T': 17.5, 'evaluations': 2400, 'runtime_ms': 206.82}
+{'category': 'Mapping & Surveying', 'method': 'Grid search', 'V_E': 17.55, 'V_star': 20.5, 'V_T': 20.5, 'evaluations': 391, 'runtime_ms': 0.06}
+{'category': 'Mapping & Surveying', 'method': 'Weighted sum (SciPy)', 'V_E': 17.55, 'V_star': 20.5, 'V_T': 20.5, 'evaluations': 40, 'runtime_ms': 0.94}
+{'category': 'Mapping & Surveying', 'method': 'NSGA-II (pymoo)', 'V_E': 17.55, 'V_star': 20.5, 'V_T': 20.5, 'evaluations': 2400, 'runtime_ms': 148.71}
+{'category': 'Industrial Inspection', 'method': 'Grid search', 'V_E': 21.7, 'V_star': 25.0, 'V_T': 25.0, 'evaluations': 481, 'runtime_ms': 0.06}
+{'category': 'Industrial Inspection', 'method': 'Weighted sum (SciPy)', 'V_E': 21.71, 'V_star': 25.0, 'V_T': 25.0, 'evaluations': 40, 'runtime_ms': 0.95}
+{'category': 'Industrial Inspection', 'method': 'NSGA-II (pymoo)', 'V_E': 21.71, 'V_star': 25.0, 'V_T': 25.0, 'evaluations': 2400, 'runtime_ms': 149.44}
+headwind V_E: [(np.float64(0.0), 18.300000000000015), (np.float64(2.0), 19.200000000000017), (np.float64(4.0), 20.200000000000017), (np.float64(6.0), 21.40000000000002), (np.float64(8.0), 22.80000000000002), (np.float64(10.0), 24.300000000000022)]
+payload V_E: [(np.float64(0.0), 18.300000000000015), (np.float64(0.5), 18.700000000000017), (np.float64(1.0), 19.000000000000014), (np.float64(1.5), 19.300000000000015), (np.float64(2.0), 19.500000000000018)]
+distance: [(np.float64(1.0), np.float64(1.0), 25.00000000000002), (np.float64(4.0), np.float64(2.6000000000000014), 25.00000000000002), (np.float64(7.0), np.float64(4.200000000000003), 25.00000000000002), (np.float64(10.0), np.float64(6.250000000000004), 25.00000000000002), (np.float64(13.0), np.float64(9.150000000000007), 25.00000000000002), (np.float64(16.0), nan, nan), (np.float64(19.0), nan, nan), (np.float64(22.0), nan, nan), (np.float64(25.0), nan, nan), (np.float64(28.0), nan, nan)]

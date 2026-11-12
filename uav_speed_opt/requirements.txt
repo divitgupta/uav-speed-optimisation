@@ -1,0 +1,9 @@
+numpy
+scipy
+pymoo>=0.6
+matplotlib
+openpyxl
+flask
+pandas
+streamlit
+plotly

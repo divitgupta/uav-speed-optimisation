@@ -1,0 +1,7 @@
+category,companies,multirotors,mass_kg,v_max,endurance_min,robustness,battery_kJ,V_E,V_star,V_T,E_star_kJ,T_star_min,R_star,E_at_10ms_kJ,energy_saved_vs_10ms,time_saved_vs_10ms
+Delivery / Logistics,10,4,53.25,21.1,18,7.5,3802.3,21.1,21.1,21.1,826.0,3.95,0.9972,1565.9,0.473,0.526
+Disaster Relief & SAR,9,7,3.1,20.1,42,32.4,516.5,19.05,20.1,20.1,64.2,4.15,0.9976,94.9,0.324,0.502
+Agricultural,9,8,67,11.9,17.5,15,4651.2,11.9,11.9,11.9,1614.2,7.0,0.9953,1966.5,0.179,0.16
+Surveillance & Security,8,6,1.56,17.5,45.0,47.7,278.5,17.5,17.5,17.5,34.9,4.76,0.9976,48.5,0.282,0.429
+Mapping & Surveying,7,4,1.33,20.5,43.5,35,229.5,17.55,20.5,20.5,31.2,4.07,0.9977,41.6,0.25,0.512
+Industrial Inspection,7,3,11.95,25.0,47,31.3,2228.0,21.7,25.0,25.0,216.4,3.33,0.998,357.3,0.394,0.6
