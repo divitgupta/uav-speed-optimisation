@@ -14,7 +14,7 @@ document.querySelectorAll(".slider").forEach((el) => {
     <input type="range" min="${el.dataset.min}" max="${el.dataset.max}" step="${el.dataset.step}">`;
   const input = el.querySelector("input"), out = el.querySelector("output");
   const show = () => (out.textContent = `${(+input.value).toFixed(dp)} ${el.dataset.unit}`.trim());
-  input.addEventListener("input", () => { state.p[key] = +input.value; show(); schedule(); });
+  input.addEventListener("input", () => { state.p[key] = +input.value; show(); clearExample(); schedule(); });
   sliders[key] = { set(v) { input.value = v; state.p[key] = +input.value; show(); }, input };
 });
 function setSlider(key, v) { sliders[key].set(v); }
@@ -39,7 +39,66 @@ function selectCat(k) {
   sliders.mass.input.max = Math.max(120, Math.ceil(d.mass * 1.5));
   setSlider("mass", d.mass); setSlider("vmax", d.vmax); setSlider("endurance", d.endurance); setSlider("lam0", d.lam0);
   renderBenchmark(k);
+  renderExamples(k);
   schedule(0);
+}
+
+/* ---------- example missions (3 per category; drone values stay at the benchmark defaults) ---------- */
+const EXAMPLES = {
+  Delivery: [
+    { name: "Medicine to a rural clinic", note: "2 kg of medicines over 7 km with a light headwind. Arriving quickly matters more than saving battery.", p: { payload: 2, distance: 7, headwind: 2, rmin: 0.995, w: 0.3 } },
+    { name: "Last-mile parcel drop", note: "A 5 kg parcel over 3 km in calm air, with slightly more weight on saving energy.", p: { payload: 5, distance: 3, headwind: 0, rmin: 0.995, w: 0.6 } },
+    { name: "Heavy cargo into wind", note: "15 kg of cargo over 6 km against a 6 m/s headwind.", p: { payload: 15, distance: 6, headwind: 6, rmin: 0.995, w: 0.5 } },
+  ],
+  SAR: [
+    { name: "Missing hiker search", note: "Fly 6 km to the hiker's last known location as fast as possible, into a 3 m/s wind.", p: { payload: 0, distance: 6, headwind: 3, rmin: 0.995, w: 0.2 } },
+    { name: "Flood life-jacket drop", note: "Carry a 1.5 kg life jacket 4 km in strong wind, with a stricter reliability target (0.997).", p: { payload: 1.5, distance: 4, headwind: 5, rmin: 0.997, w: 0.3 } },
+    { name: "Wide-area sweep", note: "A 9 km sweep where battery matters most, so the drone flies at its minimum-energy speed.", p: { payload: 0, distance: 9, headwind: 0, rmin: 0.995, w: 1 } },
+  ],
+  Agricultural: [
+    { name: "Crop spraying run", note: "A full 20 kg spray tank over a 2 km run in calm air.", p: { payload: 20, distance: 2, headwind: 0, rmin: 0.995, w: 0.7 } },
+    { name: "Field scouting flight", note: "An empty tank and a 4 km flight to check crop health.", p: { payload: 0, distance: 4, headwind: 2, rmin: 0.995, w: 0.8 } },
+    { name: "Spraying in gusty wind", note: "15 kg of spray over 1.5 km into a 5 m/s wind.", p: { payload: 15, distance: 1.5, headwind: 5, rmin: 0.995, w: 0.6 } },
+  ],
+  Surveillance: [
+    { name: "Night perimeter patrol", note: "A routine 4 km patrol of a site boundary, saving battery for a long shift.", p: { payload: 0, distance: 4, headwind: 1, rmin: 0.995, w: 0.8 } },
+    { name: "Intruder alarm response", note: "Reach an alarm 2 km away as fast as possible, with a stricter reliability target (0.998).", p: { payload: 0, distance: 2, headwind: 0, rmin: 0.998, w: 0.1 } },
+    { name: "Coastline watch in wind", note: "A 5 km coastal patrol against a 6 m/s sea breeze.", p: { payload: 0, distance: 5, headwind: 6, rmin: 0.995, w: 0.5 } },
+  ],
+  Mapping: [
+    { name: "Battery-saver site survey", note: "Fly 6 km to a construction site using as little battery as possible.", p: { payload: 0, distance: 6, headwind: 0, rmin: 0.995, w: 1 } },
+    { name: "Road corridor mapping", note: "A 10 km road corridor. The reliability target is relaxed to 0.99 so the longer flight is allowed.", p: { payload: 0, distance: 10, headwind: 0, rmin: 0.99, w: 0.6 } },
+    { name: "Quarry survey in wind", note: "A 4 km quarry survey in a 6 m/s headwind.", p: { payload: 0, distance: 4, headwind: 6, rmin: 0.995, w: 0.5 } },
+  ],
+  Inspection: [
+    { name: "Power-line inspection", note: "Follow 10 km of power line in a light headwind.", p: { payload: 0, distance: 10, headwind: 2, rmin: 0.995, w: 0.6 } },
+    { name: "Wind-turbine check", note: "A 3 km flight to a wind turbine in an 8 m/s wind, with a stricter reliability target (0.998).", p: { payload: 0, distance: 3, headwind: 8, rmin: 0.998, w: 0.4 } },
+    { name: "Pipeline patrol", note: "A 20 km pipeline patrol. The reliability target is relaxed to 0.99 to allow the long flight.", p: { payload: 0, distance: 20, headwind: 0, rmin: 0.99, w: 0.8 } },
+  ],
+};
+function renderExamples(k) {
+  const box = $("examples");
+  box.innerHTML = "";
+  EXAMPLES[k].forEach((ex) => {
+    const b = document.createElement("button");
+    b.className = "ex";
+    b.innerHTML = `${ex.name}<span>${ex.p.distance} km${ex.p.payload ? ` · ${ex.p.payload} kg` : ""}</span>`;
+    b.onclick = () => applyExample(k, ex, b);
+    box.appendChild(b);
+  });
+  clearExample();
+}
+function applyExample(k, ex, btn) {
+  const d = CATS[k].defaults;
+  setSlider("mass", d.mass); setSlider("vmax", d.vmax); setSlider("endurance", d.endurance); setSlider("lam0", d.lam0); setSlider("k", 2);
+  Object.entries(ex.p).forEach(([key, v]) => setSlider(key, v));
+  document.querySelectorAll(".ex").forEach((x) => x.classList.toggle("on", x === btn));
+  $("exNote").textContent = ex.note; $("exNote").hidden = false;
+  schedule(0);
+}
+function clearExample() {
+  document.querySelectorAll(".ex.on").forEach((x) => x.classList.remove("on"));
+  $("exNote").hidden = true;
 }
 $("reset").onclick = () => { ["payload", "distance", "headwind", "rmin", "w", "k"].forEach((k) => setSlider(k, { payload: 0, distance: 5, headwind: 0, rmin: 0.995, w: 0.5, k: 2 }[k])); selectCat(state.cat); };
 document.querySelectorAll("#algos button").forEach((b) => (b.onclick = () => {
