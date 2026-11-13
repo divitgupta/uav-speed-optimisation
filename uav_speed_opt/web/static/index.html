@@ -6,42 +6,91 @@
   <title>UAV Flight-Speed Optimiser</title>
   <meta name="description" content="Find the UAV flight speed that minimises energy and delivery time while keeping mission reliability above a target.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='15' fill='%230F1626'/><path d='M6 19 L16 9 L26 19' stroke='%233DD6F5' stroke-width='3' fill='none' stroke-linecap='round'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+  <div class="bg-fx" aria-hidden="true"></div>
   <header class="nav">
     <a class="brand" href="#top">
       <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="9" cy="9" r="6"/><circle cx="31" cy="9" r="6"/><circle cx="9" cy="31" r="6"/><circle cx="31" cy="31" r="6"/><path d="M13 13 L27 27 M27 13 L13 27"/><rect x="15" y="15" width="10" height="10" rx="2"/></svg>
       <span>UAV Speed <b>Optimiser</b></span>
     </a>
     <nav>
-      <a href="#planner">Planner</a><a href="#tradeoff">Trade-off</a><a href="#benchmark">Benchmark</a><a href="#method">Method</a>
+      <a href="#planner">Planner</a><a href="#replay">Replay</a><a href="#tradeoff">Trade-off</a><a href="#benchmark">Benchmark</a><a href="#method">Method</a>
     </nav>
+    <span class="live"><i></i>Model live</span>
     <span class="pill sdg">SDG 9 · Industry, Innovation &amp; Infrastructure</span>
   </header>
 
   <main id="top">
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-text">
-        <p class="eyebrow">Experiential Learning Project · RV College of Engineering</p>
-        <h1>Minimizing energy &amp; delivery time <span>while ensuring high reliability in UAVs</span></h1>
-        <p class="lede">Every drone mission trades battery energy against delivery time and the risk of failure. Flight speed is the one knob that
-          controls all three. This tool models a multirotor's power, time and reliability, then finds the <b>optimal feasible speed</b>
-          for your mission using three optimisation algorithms.</p>
-        <div class="hero-cta"><a class="btn primary" href="#planner">Plan a mission</a><a class="btn ghost" href="#method">How it works</a></div>
+      <div class="hero-grid">
+        <div class="hero-text">
+          <p class="eyebrow"><i></i>Experiential Learning Project · RV College of Engineering</p>
+          <h1>Minimizing energy &amp; delivery time <span class="grad-text">while ensuring high reliability in UAVs</span></h1>
+          <p class="lede">Every drone mission trades battery energy against delivery time and the risk of failure. Flight speed is the one knob that
+            controls all three. This tool models a multirotor's power, time and reliability, then finds the <b>optimal feasible speed</b>
+            for your mission using three optimisation algorithms.</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="#planner">Plan a mission <span aria-hidden="true">→</span></a>
+            <a class="btn ghost" href="#replay">Watch a replay</a>
+          </div>
+        </div>
+
+        <div class="panel hud hero-visual" aria-label="Animated example flight">
+          <div class="hv-top"><span class="hv-tag"><i></i>LIVE MODEL</span><span id="hvCat" class="hv-cat">–</span></div>
+          <svg viewBox="0 0 480 270" class="hv-svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="hvGrad" x1="0" x2="1"><stop offset="0" stop-color="#34E3A1"/><stop offset=".5" stop-color="#38E1FF"/><stop offset="1" stop-color="#8B7CFF"/></linearGradient>
+              <radialGradient id="hvGlow"><stop offset="0" stop-color="#38E1FF" stop-opacity=".55"/><stop offset="1" stop-color="#38E1FF" stop-opacity="0"/></radialGradient>
+            </defs>
+            <g stroke="rgba(140,170,230,.07)">
+              <path d="M0 45H480M0 90H480M0 135H480M0 180H480M0 225H480M60 0V270M120 0V270M180 0V270M240 0V270M300 0V270M360 0V270M420 0V270"/>
+            </g>
+            <g fill="none" stroke="rgba(139,124,255,.13)">
+              <path d="M-20 200 C 80 150, 140 230, 240 190 S 400 120, 500 170"/><path d="M-20 230 C 90 180, 150 260, 250 220 S 410 150, 500 200"/>
+              <path d="M-20 60 C 70 90, 160 20, 260 50 S 420 100, 500 60"/>
+            </g>
+            <path id="hvRoute" d="M58 222 C 140 222, 150 104, 236 116 S 352 196, 422 66" fill="none" stroke="rgba(140,170,230,.28)" stroke-width="2" stroke-dasharray="5 7"/>
+            <path class="hv-progress" d="M58 222 C 140 222, 150 104, 236 116 S 352 196, 422 66" fill="none" stroke="url(#hvGrad)" stroke-width="3.5" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100">
+              <animate attributeName="stroke-dashoffset" values="100;0;0" keyTimes="0;.8;1" dur="7s" repeatCount="indefinite"/></path>
+            <g transform="translate(58 222)"><rect x="-10" y="-10" width="20" height="20" rx="5" fill="#0B1222" stroke="#93A1BA" stroke-width="1.5"/><text x="0" y="30" text-anchor="middle">BASE</text></g>
+            <g transform="translate(422 66)">
+              <circle r="22" fill="none" stroke="#34E3A1" stroke-opacity=".35" class="hv-ping"/>
+              <circle r="11" fill="none" stroke="#34E3A1" stroke-width="2"/><circle r="4" fill="#34E3A1"/>
+              <text x="0" y="-22" text-anchor="middle">DROP-OFF</text>
+            </g>
+            <g class="hv-drone">
+              <circle r="26" fill="url(#hvGlow)"/>
+              <path d="M-9 -9 L9 9 M9 -9 L-9 9" stroke="#38E1FF" stroke-width="2.6"/>
+              <g fill="#0B1222" stroke="#38E1FF" stroke-width="1.8"><circle cx="-9" cy="-9" r="5"/><circle cx="9" cy="-9" r="5"/><circle cx="-9" cy="9" r="5"/><circle cx="9" cy="9" r="5"/></g>
+              <rect x="-4.5" y="-4.5" width="9" height="9" rx="2.5" fill="#38E1FF"/>
+              <animateMotion dur="7s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.8;1" calcMode="linear"><mpath href="#hvRoute"/></animateMotion>
+            </g>
+          </svg>
+          <div class="hv-read">
+            <div><span>Recommended speed</span><b><em id="hvV">–</em> m/s</b></div>
+            <div><span>Energy saved vs 10 m/s</span><b class="g" id="hvE">–</b></div>
+            <div><span>Mission reliability</span><b id="hvR">–</b></div>
+          </div>
+        </div>
       </div>
+
       <div class="hero-stats">
-        <div class="stat"><b>50</b><span>commercial drones benchmarked</span></div>
-        <div class="stat"><b>6</b><span>application categories</span></div>
-        <div class="stat"><b>3</b><span>optimisers: grid, SciPy, NSGA-II</span></div>
-        <div class="stat"><b>0.05 kJ</b><span>max model error vs reference</span></div>
+        <div class="stat"><span class="si"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8 8l8 8M16 8l-8 8"/></svg></span><div><b>50</b><span>commercial drones benchmarked</span></div></div>
+        <div class="stat"><span class="si"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><div><b>6</b><span>application categories</span></div></div>
+        <div class="stat"><span class="si"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></span><div><b>3</b><span>optimisers: grid, SciPy, NSGA-II</span></div></div>
+        <div class="stat"><span class="si"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></span><div><b>0.05 kJ</b><span>max model error vs reference</span></div></div>
       </div>
     </section>
 
     <!-- PLANNER -->
     <section id="planner" class="section">
-      <div class="section-head"><h2>Mission planner</h2><p>Pick a drone category (defaults come from the industry benchmark), then adjust the mission.</p></div>
+      <div class="section-head"><span class="kicker">01 · Plan</span><h2>Mission planner</h2><p>Pick a drone category (defaults come from the industry benchmark), then adjust the mission.</p></div>
       <div class="planner">
         <aside class="panel controls">
           <div class="group">
@@ -82,7 +131,7 @@
         </aside>
 
         <div class="results">
-          <div class="panel result-hero" id="resultHero">
+          <div class="panel hud result-hero" id="resultHero">
             <div class="vstar">
               <span class="label">Recommended speed</span>
               <div class="big"><span id="vStar">–</span><small>m/s</small></div>
@@ -103,10 +152,10 @@
             <b>No feasible speed.</b> This mission breaks the battery or reliability limit. Shorten the distance, reduce payload or headwind, or relax the required reliability.
           </div>
           <div class="metrics">
-            <div class="panel metric"><span class="label">Energy used</span><b id="mE">–</b><div class="meter"><i id="mEbar"></i></div><span class="sub" id="mEsub">–</span></div>
-            <div class="panel metric"><span class="label">Delivery time</span><b id="mT">–</b><span class="sub" id="mTsub">–</span></div>
-            <div class="panel metric"><span class="label">Mission reliability</span><b id="mR">–</b><span class="sub" id="mRsub">–</span></div>
-            <div class="panel metric accent"><span class="label">Energy saved vs 10 m/s</span><b id="mS">–</b><span class="sub" id="mSsub">–</span></div>
+            <div class="panel metric"><span class="mi"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="17" height="10" rx="2"/><path d="M22 11v2M6 10v4M10 10v4"/></svg></span><span class="label">Energy used</span><b id="mE">–</b><div class="meter"><i id="mEbar"></i></div><span class="sub" id="mEsub">–</span></div>
+            <div class="panel metric"><span class="mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="label">Delivery time</span><b id="mT">–</b><span class="sub" id="mTsub">–</span></div>
+            <div class="panel metric"><span class="mi"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="label">Mission reliability</span><b id="mR">–</b><span class="sub" id="mRsub">–</span></div>
+            <div class="panel metric accent"><span class="mi"><svg viewBox="0 0 24 24"><path d="M3 7l6 6 4-4 8 8"/><path d="M21 11v6h-6"/></svg></span><span class="label">Energy saved vs 10 m/s</span><b id="mS">–</b><span class="sub" id="mSsub">–</span></div>
           </div>
           <div class="panel charts">
             <div id="chE" class="chart"></div><div id="chT" class="chart"></div><div id="chR" class="chart"></div>
@@ -115,9 +164,38 @@
       </div>
     </section>
 
+    <!-- REPLAY -->
+    <section id="replay" class="section">
+      <div class="section-head"><span class="kicker">02 · Simulate</span><h2>Mission replay</h2>
+        <p>Both drones fly the planner's current mission at the same time: drone A at the optimal speed, drone B at a speed you choose.</p></div>
+      <div class="panel rp-bar">
+        <div class="rp-controls">
+          <button id="rpRestart" class="btn small" title="Back to the start">◀|</button>
+          <button id="rpPlay" class="btn primary small rp-play">Play</button>
+          <label class="rp-lbl">Playback
+            <select id="rpSpeed"><option value="10">10×</option><option value="30" selected>30×</option><option value="60">60×</option><option value="120">120×</option></select>
+          </label>
+          <input id="rpTime" type="range" min="0" max="1000" step="1" value="0" aria-label="Mission time">
+          <span id="rpClock" class="rp-clock">00:00 / 00:00</span>
+        </div>
+        <div class="rp-controls rp-b">
+          <span class="rp-lbl">Drone B speed</span>
+          <input id="rpVb" type="range" min="2" max="20" step="0.5" value="10" aria-label="Drone B speed">
+          <output id="rpVbOut" class="rp-clock">10.0 m/s</output>
+          <span class="rp-hint">Default 10 m/s, a typical fixed operating speed</span>
+        </div>
+        <p id="rpHeadline" class="rp-headline"></p>
+      </div>
+      <p id="rpNone" class="panel infeasible" hidden><b>Nothing to replay.</b> No speed satisfies the limits for this mission. Pick an example mission or relax the limits in the planner.</p>
+      <div id="rpPanels" class="rp-panels">
+        <div class="panel rp-panel" data-d="0"></div>
+        <div class="panel rp-panel" data-d="1"></div>
+      </div>
+    </section>
+
     <!-- TRADE-OFF -->
     <section id="tradeoff" class="section">
-      <div class="section-head"><h2>Energy–time trade-off</h2><p>Every point on the Pareto front is a speed where you cannot save energy without losing time.</p></div>
+      <div class="section-head"><span class="kicker">03 · Analyse</span><h2>Energy–time trade-off</h2><p>Every point on the Pareto front is a speed where you cannot save energy without losing time.</p></div>
       <div class="two">
         <div class="panel"><div id="chP" class="chart tall"></div></div>
         <div class="panel">
@@ -132,7 +210,7 @@
 
     <!-- BENCHMARK -->
     <section id="benchmark" class="section">
-      <div class="section-head"><h2>Industry benchmark: <span id="bmTitle"></span></h2>
+      <div class="section-head"><span class="kicker">04 · Data</span><h2>Industry benchmark: <span id="bmTitle"></span></h2>
         <p>Published specifications from official sources. Blank = not disclosed. The planner's defaults are medians of the free-flight multirotors below.</p></div>
       <div class="panel">
         <div class="bm-summary" id="bmSummary"></div>
@@ -142,21 +220,25 @@
 
     <!-- METHOD -->
     <section id="method" class="section">
-      <div class="section-head"><h2>How it works</h2><p>A quantitative, simulation-based model optimised under constraints.</p></div>
+      <div class="section-head"><span class="kicker">05 · Method</span><h2>How it works</h2><p>A quantitative, simulation-based model optimised under constraints.</p></div>
       <div class="cards4">
-        <div class="panel eq"><h3>Power</h3><p class="mono">P(V) = P₀(1+3V²/U²) + Pᵢ·√(√(1+V⁴/4v₀⁴) − V²/2v₀²) + ½d₀ρsA·V³</p><p>Rotary-wing model of Zeng, Xu &amp; Zhang (2019), scaled to the drone's mass.</p></div>
-        <div class="panel eq"><h3>Time &amp; energy</h3><p class="mono">T(V) = D / (V − w) &nbsp;&nbsp; E(V) = P(V)·T(V)</p><p>Headwind w slows ground speed. Battery budget = 0.8 × hover power × published flight time.</p></div>
-        <div class="panel eq warn"><h3>Reliability <em>(assumption)</em></h3><p class="mono">R(V) = exp(−λ(V)·T) &nbsp; λ(V) = λ₀(1 + k(V/Vmax)²)</p><p>No drone maker publishes failure rates, so λ₀ and k are illustrative (after Petritoli et al., 2018).</p></div>
-        <div class="panel eq"><h3>Optimisation</h3><p class="mono">min {E, T} &nbsp;s.t.&nbsp; R ≥ R_min, E ≤ budget, V ≤ Vmax</p><p>Weighted sum J = w·E/E_min + (1−w)·T/T_min picks one speed from the Pareto front.</p></div>
+        <div class="panel eq"><span class="step">01</span><span class="mi"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></span><h3>Power</h3><p class="mono">P(V) = P₀(1+3V²/U²) + Pᵢ·√(√(1+V⁴/4v₀⁴) − V²/2v₀²) + ½d₀ρsA·V³</p><p>Rotary-wing model of Zeng, Xu &amp; Zhang (2019), scaled to the drone's mass.</p></div>
+        <div class="panel eq"><span class="step">02</span><span class="mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><h3>Time &amp; energy</h3><p class="mono">T(V) = D / (V − w) &nbsp;&nbsp; E(V) = P(V)·T(V)</p><p>Headwind w slows ground speed. Battery budget = 0.8 × hover power × published flight time.</p></div>
+        <div class="panel eq warn"><span class="step">03</span><span class="mi"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></span><h3>Reliability <em>(assumption)</em></h3><p class="mono">R(V) = exp(−λ(V)·T) &nbsp; λ(V) = λ₀(1 + k(V/Vmax)²)</p><p>No drone maker publishes failure rates, so λ₀ and k are illustrative (after Petritoli et al., 2018).</p></div>
+        <div class="panel eq"><span class="step">04</span><span class="mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></span><h3>Optimisation</h3><p class="mono">min {E, T} &nbsp;s.t.&nbsp; R ≥ R_min, E ≤ budget, V ≤ Vmax</p><p>Weighted sum J = w·E/E_min + (1−w)·T/T_min picks one speed from the Pareto front.</p></div>
       </div>
     </section>
   </main>
 
   <footer>
-    <p><b>UAV Flight-Speed Optimiser</b> · EL Phase-II prototype · SDG 9. Power model: Zeng et al., IEEE TWC 2019 · NSGA-II: Deb et al., 2002 (pymoo) · Reliability basis: Petritoli et al., Sensors 2018.</p>
+    <div class="foot">
+      <div class="foot-brand"><b>UAV Speed <span class="grad-text">Optimiser</span></b><p>EL Phase-II prototype · RV College of Engineering · SDG 9</p></div>
+      <div class="foot-refs"><span>Power model: Zeng, Xu &amp; Zhang, IEEE TWC 2019</span><span>NSGA-II: Deb et al., 2002 (pymoo)</span><span>Reliability basis: Petritoli et al., Sensors 2018</span></div>
+    </div>
   </footer>
 
   <script src="/static/vendor/plotly.min.js"></script>
   <script src="/static/app.js"></script>
+  <script src="/static/replay.js"></script>
 </body>
 </html>
